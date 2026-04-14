@@ -11,10 +11,10 @@ _start:
     sd      s0, 16(sp)
     sd      s1,  8(sp)
     sd      s2,  0(sp)
-    # Use 1 byte at sp-8 as our read buffer (below our frame, safe)
-    addi    sp, sp, -8          # sp now points to our 1-byte read buffer
+    # Use 1 byte at sp-8 as read buffer
+    addi    sp, sp, -8          # sp now points to 1-byte read buffer
  
-    # ── open("input.txt", O_RDONLY=0) ──
+    # open("input.txt", O_RDONLY=0)
     li      a0, -100            # AT_FDCWD
     la      a1, filename
     li      a2, 0               # O_RDONLY
@@ -23,7 +23,7 @@ _start:
     ecall
     mv      s0, a0              # s0 = fd (check > 0 in production; skip for brevity)
  
-    # ── lseek(fd, 0, SEEK_END) to get file size ──
+    # lseek(fd, 0, SEEK_END) to get file size
     mv      a0, s0
     li      a1, 0
     li      a2, 2               # SEEK_END
@@ -31,15 +31,15 @@ _start:
     ecall
     mv      s2, a0              # s2 = file size n
  
-    # if n == 0 → trivially a palindrome
+    ; if n == 0 : trivially a palindrome
     beqz    s2, print_yes
  
     addi    s2, s2, -1          # s2 = right = n - 1
     li      s1, 0               # s1 = left  = 0
  
-    # ── Two-pointer loop ──
+    # Two-pointer loop
 check_loop:
-    bge     s1, s2, print_yes   # left >= right → palindrome
+    bge     s1, s2, print_yes   # left >= right : palindrome
  
     # seek to left, read 1 byte into our buffer
     mv      a0, s0
@@ -70,7 +70,7 @@ check_loop:
     lb      t1, 0(sp)           # t1 = ch_right
  
     # compare
-    bne     t0, t1, print_no    # mismatch → not a palindrome
+    bne     t0, t1, print_no    # mismatch : not a palindrome
  
     addi    s1, s1, 1           # left++
     addi    s2, s2, -1          # right--
