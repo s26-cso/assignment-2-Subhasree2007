@@ -31,7 +31,7 @@ _start:
     ecall
     mv      s2, a0              # s2 = file size n
  
-    ; if n == 0 : trivially a palindrome
+    # if n == 0 : trivially a palindrome
     beqz    s2, print_yes
  
     addi    s2, s2, -1          # s2 = right = n - 1
