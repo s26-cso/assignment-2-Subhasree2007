@@ -32,7 +32,7 @@ insert:
     mv      s0, a0                # s0 = root
     mv      s1, a1                # s1 = val
  
-    ; if root == NULL, make a new node and return it
+    # if root == NULL, make a new node and return it
     bnez    s0, insert_nonempty
     mv      a0, s1
     call    make_node             # returns new node in a0
@@ -109,7 +109,7 @@ getAtMost:
     mv      s0, a0              # s0 = val
     mv      s1, a1              # s1 = root
  
-    ; if root == NULL, return -1
+    # if root == NULL, return -1
     bnez    s1, getatmost_nonempty
     li      a0, -1
     j       getatmost_done
@@ -117,7 +117,7 @@ getAtMost:
 getatmost_nonempty:
     lw      t0, 0(s1)           # t0 = root->val
  
-    ; if val < root->val: answer can only be in left subtree
+    # if val < root->val: answer can only be in left subtree
     blt     s0, t0, getatmost_left
  
     # val >= root->val: root->val is a valid candidate.
@@ -126,7 +126,7 @@ getatmost_nonempty:
     ld      a1, 16(s1)          # root->right
     call    getAtMost
  
-    ; if right subtree returned something valid, it's a better answer
+    # if right subtree returned something valid, it's a better answer
     li      t1, -1
     bne     a0, t1, getatmost_done   # right found something: return it
  
