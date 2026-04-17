@@ -4,8 +4,8 @@ msg_yes:    .string "Yes\n"
 msg_no:     .string "No\n"
  
     .text
-    .globl _start
-_start:
+    .globl main
+main:
     addi    sp, sp, -32
     sd      ra, 24(sp)
     sd      s0, 16(sp)
